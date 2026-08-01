@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity(
     foreignKeys = [
@@ -30,4 +31,5 @@ data class ProductEntity(
     val binId: Int?,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
+
 )
