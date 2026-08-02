@@ -20,7 +20,7 @@ import com.google.gson.annotations.SerializedName
     )]
 )
 data class ProductEntity(
-    val supabaseId: String,
+    val supabaseId: Long,
     val name: String,
     val sku: String,
     val barcode: String,

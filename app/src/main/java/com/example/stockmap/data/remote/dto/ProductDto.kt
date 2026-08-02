@@ -3,8 +3,8 @@ package com.example.stockmap.data.remote.dto
 import com.google.gson.annotations.SerializedName
 
 data class ProductDto(
-    @SerializedName("supabase_id")
-    val supabaseId: String,
+    @SerializedName("id")
+    val supabaseId: Long,
     val name: String,
     val sku: String,
     val barcode: String,

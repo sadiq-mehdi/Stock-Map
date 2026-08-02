@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 
 interface StockMapApi {
-    @GET("rest/v1/products")
+    @GET("products")
     suspend fun getProducts(): List<ProductDto>
 }
