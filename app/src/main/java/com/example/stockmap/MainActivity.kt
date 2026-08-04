@@ -22,18 +22,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var api: StockMapApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch{
-            try {
-                val products = api.getProducts()
-                Log.d("StockMap", products.toString())
-            } catch (e: Exception) {
-                Log.e("StockMap", "Error", e)
-            }
-        }
         enableEdgeToEdge()
         setContent {
             StockMapTheme {

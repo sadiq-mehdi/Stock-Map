@@ -9,7 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-
+import com.example.stockmap.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,14 +25,14 @@ object NetworkModule {
                         chain.proceed(
                             chain.request().newBuilder().addHeader(
                                 "apikey",
-                                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdXVyYmpsbmN1bnpleWZ4c2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2ODM0NTMsImV4cCI6MjEwMTI1OTQ1M30.QqriXATCVEmCDiTy7uH_6HXGQCO69COIgBc9JL3rT-M"
+                                BuildConfig.SUPABASE_ANON_KEY
                             )
-                                .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InltdXVyYmpsbmN1bnpleWZ4c2JyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU2ODM0NTMsImV4cCI6MjEwMTI1OTQ1M30.QqriXATCVEmCDiTy7uH_6HXGQCO69COIgBc9JL3rT-M").build()
+                                .addHeader("Authorization", "Bearer ${BuildConfig.SUPABASE_ANON_KEY}").build()
                         )
                     }
                     .build()
             )
-            .baseUrl("https://ymuurbjlncunzeyfxsbr.supabase.co/rest/v1/")
+            .baseUrl(BuildConfig.SUPABASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
