@@ -25,4 +25,7 @@ interface ProductDao {
     @Query("SELECT * FROM ProductEntity WHERE (name LIKE '%' || :searchQuery || '%') AND (:category IS NULL OR category = :category)")
     fun getFilteredProducts(searchQuery: String, category: String?): Flow<List<ProductEntity>>
 
+    @Query("SELECT * FROM ProductEntity WHERE supabaseId = :supabaseId")
+    suspend fun findIdBySupabaseId(supabaseId: Long): ProductEntity?
+
 }
