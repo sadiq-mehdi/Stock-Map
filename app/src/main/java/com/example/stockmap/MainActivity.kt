@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.example.stockmap.data.remote.api.StockMapApi
+import com.example.stockmap.ui.stocklist.StockListScreen
 import com.example.stockmap.ui.theme.StockMapTheme
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StockMapTheme {
-
+                StockListScreen()
             }
         }
     }
