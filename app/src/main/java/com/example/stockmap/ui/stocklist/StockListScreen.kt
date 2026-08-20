@@ -87,7 +87,7 @@ fun StockListScreen(
             )
 
             CategoryFilterChips(
-                categories = uiState.products.map { it.category }.distinct(),
+                categories = uiState.allCategories,
                 selectedCategory = category,
                 onCategorySelected = { viewModel.onCategoryChange(it) },
             )

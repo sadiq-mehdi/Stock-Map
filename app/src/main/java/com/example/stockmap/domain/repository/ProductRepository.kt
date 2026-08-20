@@ -19,4 +19,6 @@ interface ProductRepository {
 
     suspend fun getOccupiedBinIds(): List<Int>
 
+    fun getCategories(): Flow<List<String>>
+
 }

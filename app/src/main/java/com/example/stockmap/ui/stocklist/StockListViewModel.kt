@@ -33,9 +33,13 @@ class StockListViewModel @Inject constructor(private val productRepository: Prod
             }.flatMapLatest { (search, cat) ->
                 productRepository.getFilteredProducts(search, cat)
             }.collect { products ->
-                _uiState.value = _uiState.value.copy(
-                    products = products
-                )
+                _uiState.value = _uiState.value.copy(products = products)
+            }
+        }
+
+        viewModelScope.launch {
+            productRepository.getCategories().collect { categories ->
+                _uiState.value = _uiState.value.copy(allCategories = categories)
             }
         }
     }

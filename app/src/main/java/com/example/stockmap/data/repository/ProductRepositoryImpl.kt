@@ -91,5 +91,9 @@ class ProductRepositoryImpl @Inject constructor(
         return productDao.getOccupiedBinIds().filterNotNull()
     }
 
+    override fun getCategories(): Flow<List<String>> {
+        return productDao.getCategories()
+    }
+
 
 }

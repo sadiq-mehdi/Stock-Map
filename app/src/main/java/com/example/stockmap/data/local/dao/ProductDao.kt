@@ -22,7 +22,7 @@ interface ProductDao {
     @Query("Update ProductEntity SET binId = :binId WHERE id = :id")
     suspend fun binAssign(id: Int, binId: Int?)
 
-    @Query("SELECT * FROM ProductEntity WHERE (name LIKE '%' || :searchQuery || '%') AND (:category IS NULL OR category = :category)")
+    @Query("SELECT * FROM ProductEntity WHERE (name LIKE '%' || :searchQuery || '%') AND (:category IS NULL OR category = :category OR (:category = 'unassigned' AND binId IS NULL))")
     fun getFilteredProducts(searchQuery: String, category: String?): Flow<List<ProductEntity>>
 
     @Query("SELECT * FROM ProductEntity WHERE supabaseId = :supabaseId")
@@ -33,5 +33,8 @@ interface ProductDao {
 
     @Query("SELECT binId FROM ProductEntity WHERE binId IS NOT NULL")
     suspend fun getOccupiedBinIds(): List<Int?>
+
+    @Query("SELECT DISTINCT category FROM ProductEntity")
+    fun getCategories(): Flow<List<String>>
 
 }
