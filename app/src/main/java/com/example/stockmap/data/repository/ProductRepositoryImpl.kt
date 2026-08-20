@@ -83,5 +83,13 @@ class ProductRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getProductById(id: Int): Product? {
+        return productDao.getProductById(id)?.toDomain()
+    }
+
+    override suspend fun getOccupiedBinIds(): List<Int> {
+        return productDao.getOccupiedBinIds().filterNotNull()
+    }
+
 
 }

@@ -26,6 +26,12 @@ interface ProductDao {
     fun getFilteredProducts(searchQuery: String, category: String?): Flow<List<ProductEntity>>
 
     @Query("SELECT * FROM ProductEntity WHERE supabaseId = :supabaseId")
-    suspend fun findIdBySupabaseId(supabaseId: Long): ProductEntity?
+    suspend fun findIdBySupabaseId(supabaseId: Long?): ProductEntity?
+
+    @Query("SELECT * FROM ProductEntity WHERE id = :id")
+    suspend fun getProductById(id: Int): ProductEntity?
+
+    @Query("SELECT binId FROM ProductEntity WHERE binId IS NOT NULL")
+    suspend fun getOccupiedBinIds(): List<Int?>
 
 }

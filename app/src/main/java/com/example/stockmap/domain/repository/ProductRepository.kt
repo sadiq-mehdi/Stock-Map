@@ -15,4 +15,8 @@ interface ProductRepository {
 
     suspend fun updateStock(supabaseId: Long, newStock: Int): Result<Unit>
 
+    suspend fun getProductById(id: Int): Product?
+
+    suspend fun getOccupiedBinIds(): List<Int>
+
 }
