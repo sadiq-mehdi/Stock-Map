@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import com.example.stockmap.data.remote.api.StockMapApi
+import com.example.stockmap.navigation.NavGraph
 import com.example.stockmap.ui.stocklist.StockListScreen
 import com.example.stockmap.ui.theme.StockMapTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +30,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StockMapTheme {
-                StockListScreen()
+                val navController = rememberNavController()
+                NavGraph(navController)
             }
         }
     }

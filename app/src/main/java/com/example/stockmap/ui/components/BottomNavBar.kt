@@ -9,29 +9,31 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import com.example.stockmap.navigation.Routes
 
 @Composable
-fun BottomNavBar() {
+fun BottomNavBar(navController: NavController) {
     NavigationBar(
 
     ) {
         NavigationBarItem(
             selected = false,
-            onClick = {},
+            onClick = { navController.navigate(Routes.STOCK_LIST)},
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "Home") },
             label = { Text("Home") }
         )
 
         NavigationBarItem(
             selected = false,
-            onClick = {},
+            onClick = { navController.navigate(Routes.SCAN)},
             icon = { Icon(Icons.Default.AddCircle, contentDescription = "Scan") },
             label = { Text("Scan") },
         )
 
         NavigationBarItem(
             selected = false,
-            onClick = {},
+            onClick = { navController.navigate(Routes.BIN_MAP)},
             icon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Bin Map") },
             label = { Text("Bin Map") }
         )

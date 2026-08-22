@@ -70,7 +70,8 @@ class ProductDetailViewModel @Inject constructor(
             result.onSuccess {
                 _productDetailUiState.value = _productDetailUiState.value.copy(
                     isLoading = false,
-                    product = product.copy(currentStock = newStock)
+                    product = product.copy(currentStock = newStock),
+                    isDialog = false
                 )
             }
 

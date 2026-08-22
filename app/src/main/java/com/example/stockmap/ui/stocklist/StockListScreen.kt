@@ -41,11 +41,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.stockmap.domain.model.Product
+import com.example.stockmap.navigation.Routes
 import com.example.stockmap.ui.components.BottomNavBar
 
 @Composable
 fun StockListScreen(
+    navController: NavController,
     modifier: Modifier = Modifier,
     viewModel: StockListViewModel = hiltViewModel()
 ) {
@@ -67,7 +70,7 @@ fun StockListScreen(
             TopBar(onSyncClick = { viewModel.syncProducts() })
         },
         bottomBar = {
-            BottomNavBar()
+            BottomNavBar(navController = navController)
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { paddingValues ->
 
@@ -119,7 +122,7 @@ fun StockListScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(uiState.products) { product ->
-                            ProductCard(product)
+                            ProductCard(product, onClick = { navController.navigate("product_detail/${product.id}")})
                         }
                     }
                 }
@@ -181,7 +184,7 @@ private fun CategoryFilterChips(
 }
 
 @Composable
-private fun ProductCard(product: Product) {
+private fun ProductCard(product: Product, onClick: ()-> Unit) {
 
     Card(
         modifier = Modifier
@@ -191,7 +194,7 @@ private fun ProductCard(product: Product) {
             defaultElevation = 2.dp
         ),
         shape = RoundedCornerShape(12.dp),
-        onClick = {}
+        onClick = { onClick()}
     ) {
 
         Column(

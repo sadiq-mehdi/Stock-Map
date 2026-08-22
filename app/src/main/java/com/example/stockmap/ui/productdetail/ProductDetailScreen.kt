@@ -40,6 +40,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.stockmap.domain.model.Bin
 import com.example.stockmap.ui.components.BottomNavBar
 
@@ -47,6 +48,7 @@ import com.example.stockmap.ui.components.BottomNavBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
+    navController: NavController,
     viewModel: ProductDetailViewModel = hiltViewModel(),
     onBackClick: () -> Unit
 ) {
@@ -77,7 +79,7 @@ fun ProductDetailScreen(
             )
         },
         bottomBar = {
-            BottomNavBar()
+            BottomNavBar(navController = navController)
         }, snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         }) { paddingValues ->
