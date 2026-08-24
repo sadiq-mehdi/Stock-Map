@@ -95,5 +95,9 @@ class ProductRepositoryImpl @Inject constructor(
         return productDao.getCategories()
     }
 
+    override fun getAllProducts(): Flow<List<Product>> {
+        return productDao.getAllProducts().map { entity -> entity.map { it.toDomain() } }
+    }
+
 
 }

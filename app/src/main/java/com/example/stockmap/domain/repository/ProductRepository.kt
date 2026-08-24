@@ -21,4 +21,6 @@ interface ProductRepository {
 
     fun getCategories(): Flow<List<String>>
 
+    fun getAllProducts(): Flow<List<Product>>
+
 }

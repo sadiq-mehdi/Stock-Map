@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.stockmap.ui.binmap.BinMapScreen
 import com.example.stockmap.ui.productdetail.ProductDetailScreen
 import com.example.stockmap.ui.stocklist.StockListScreen
 
@@ -27,9 +28,7 @@ fun NavGraph(navController: NavHostController) {
             ProductDetailScreen(onBackClick = { navController.popBackStack() }, navController = navController)
         }
         composable(route = Routes.BIN_MAP) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text("Bin Map Coming Soon")
-            }
+            BinMapScreen(navController = navController)
         }
         composable(route = Routes.SCAN) {
             Box(modifier = Modifier.fillMaxSize()) {
