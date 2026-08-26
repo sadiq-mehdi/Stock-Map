@@ -94,6 +94,8 @@ dependencies {
     // ML Kit
     implementation(libs.mlkit.barcode.scanning)
 
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
