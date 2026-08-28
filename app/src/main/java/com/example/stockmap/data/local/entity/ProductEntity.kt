@@ -11,7 +11,8 @@ import com.google.gson.annotations.SerializedName
         ForeignKey(
             entity = BinEntity::class,
             parentColumns = ["id"],
-            childColumns = ["binId"]
+            childColumns = ["binId"],
+            onDelete = ForeignKey.SET_NULL
         )
     ],
     indices = [Index(value = ["supabaseId"], unique = true), Index(

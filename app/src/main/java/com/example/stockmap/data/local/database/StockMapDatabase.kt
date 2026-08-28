@@ -7,7 +7,7 @@ import com.example.stockmap.data.local.dao.ProductDao
 import com.example.stockmap.data.local.entity.BinEntity
 import com.example.stockmap.data.local.entity.ProductEntity
 
-@Database(entities = [ProductEntity::class, BinEntity::class], version = 1)
+@Database(entities = [ProductEntity::class, BinEntity::class], version = 2)
 abstract class StockMapDatabase: RoomDatabase() {
 
     abstract fun productDao(): ProductDao

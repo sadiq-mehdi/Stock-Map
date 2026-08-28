@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -67,7 +68,7 @@ fun StockListScreen(
 
     Scaffold(
         topBar = {
-            TopBar(onSyncClick = { viewModel.syncProducts() })
+            TopBar(onSyncClick = { viewModel.syncProducts() }, onSettingsClick = { navController.navigate("settings")})
         },
         bottomBar = {
             BottomNavBar(navController = navController)
@@ -133,7 +134,7 @@ fun StockListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onSyncClick: () -> Unit) {
+private fun TopBar(onSyncClick: () -> Unit, onSettingsClick: () -> Unit) {
 
     TopAppBar(
         title = { Text("Stock Map") },
@@ -141,6 +142,10 @@ private fun TopBar(onSyncClick: () -> Unit) {
             IconButton(onClick = onSyncClick) {
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Sync")
             }
+            IconButton(onClick = { onSettingsClick() }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+            }
+
         })
 }
 

@@ -14,27 +14,29 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule{
+object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): StockMapDatabase{
+    fun provideDatabase(@ApplicationContext context: Context): StockMapDatabase {
         return Room.databaseBuilder(
             context = context,
             klass = StockMapDatabase::class.java,
             name = "stockmap_database"
-        ).build()
+        )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideProductDao(db: StockMapDatabase): ProductDao{
+    fun provideProductDao(db: StockMapDatabase): ProductDao {
         return db.productDao()
     }
 
     @Provides
     @Singleton
-    fun provideBinDao(db: StockMapDatabase): BinDao{
+    fun provideBinDao(db: StockMapDatabase): BinDao {
         return db.binDao()
     }
 

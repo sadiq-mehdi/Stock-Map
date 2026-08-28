@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.stockmap.ui.binmap.BinMapScreen
 import com.example.stockmap.ui.productdetail.ProductDetailScreen
 import com.example.stockmap.ui.scan.ScanScreen
+import com.example.stockmap.ui.settings.SettingsScreen
 import com.example.stockmap.ui.stocklist.StockListScreen
 
 @Composable
@@ -35,9 +36,7 @@ fun NavGraph(navController: NavHostController) {
             ScanScreen(navController = navController)
         }
         composable(route = Routes.SETTINGS) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Text("Settings Coming Soon")
-            }
+            SettingsScreen(navController = navController)
         }
 
     }
