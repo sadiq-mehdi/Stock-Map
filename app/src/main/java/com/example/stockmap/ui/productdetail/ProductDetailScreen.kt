@@ -3,17 +3,24 @@ package com.example.stockmap.ui.productdetail
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -124,7 +131,7 @@ fun ProductDetailScreen(
                 label = "Bin Label",
                 value = state.bins.find { it.id == state.product?.binId }?.label ?: "Unassigned"
             )
-            Button(onClick = { viewModel.onAssignBinClick() }) { Text("Assign Bin") }
+            Button(onClick = { viewModel.onAssignBinClick() }) { Text(if (state.product?.binId != null) "Update Bin" else "Assign Bin") }
         }
         if (state.isDialog) {
             AdjustStockDialog(
@@ -190,21 +197,44 @@ private fun BinAssignmentBottomSheet(
     onDismiss: () -> Unit
 ) {
     ModalBottomSheet(onDismissRequest = { onDismiss() }) {
-        LazyColumn {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4),
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             items(bins) { bin ->
                 val isOccupied = bin.id in occupiedBinIds
                 if (isOccupied) {
 
-                    Text(bin.label, color = Color.Gray, textDecoration = TextDecoration.LineThrough)
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 2.dp
+                        ), shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Gray
+                        )){
+                        Text(bin.label, modifier = Modifier.padding(14.dp))
+                    }
+
 
                 } else {
-
-                    Text(bin.label, modifier = Modifier
-                        .padding(16.dp)
-                        .clickable {
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 2.dp
+                        ), shape = RoundedCornerShape(12.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.Green
+                        ),
+                        onClick = {
                             onBinSelected(bin.id)
                             onDismiss()
-                        })
+                        }){
+                        Text(bin.label, modifier = Modifier
+                            .padding(14.dp))
+                    }
+
 
                 }
 

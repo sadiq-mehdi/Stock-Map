@@ -4,7 +4,6 @@ import com.example.stockmap.data.local.dao.ProductDao
 import com.example.stockmap.data.local.entity.toDomain
 import com.example.stockmap.data.local.entity.toEntity
 import com.example.stockmap.data.remote.api.StockMapApi
-import com.example.stockmap.data.remote.dto.UpdateBinDto
 import com.example.stockmap.data.remote.dto.UpdateStockDto
 import com.example.stockmap.domain.model.Product
 import com.example.stockmap.domain.repository.ProductRepository
@@ -47,7 +46,6 @@ class ProductRepositoryImpl @Inject constructor(
         return try {
             val product = productDao.findIdBySupabaseId(supabaseId)
             if (product != null){
-                stockMapApi.updateBinAssignment("eq.$supabaseId", UpdateBinDto(binId))
                 productDao.binAssign(product.id, binId)
                 Result.success(Unit)
             }

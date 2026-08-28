@@ -1,7 +1,6 @@
 package com.example.stockmap.data.remote.api
 
 import com.example.stockmap.data.remote.dto.ProductDto
-import com.example.stockmap.data.remote.dto.UpdateBinDto
 import com.example.stockmap.data.remote.dto.UpdateStockDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,11 +16,5 @@ interface StockMapApi {
     suspend fun updateStock(
         @Query("id") id: String,
         @Body body: UpdateStockDto
-    )
-
-    @PATCH("products")
-    suspend fun updateBinAssignment(
-        @Query("id") id: String,
-        @Body body: UpdateBinDto
     )
 }

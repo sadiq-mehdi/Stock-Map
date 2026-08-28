@@ -119,10 +119,14 @@ private fun LegendItem(color: Color, text: String) {
 
 @Composable
 private fun Legend() {
-    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        LegendItem(color = Color.Gray, text = "Unoccupied")
-        LegendItem(color = Color.Green, text = "Healthy")
-        LegendItem(color = Color.Yellow, text = "Low Stock")
-        LegendItem(color = Color.Red, text = "Empty")
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            LegendItem(color = Color.Gray, text = "Unoccupied")
+            LegendItem(color = Color.Green, text = "Healthy")
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)){
+            LegendItem(color = Color.Yellow, text = "Low Stock")
+            LegendItem(color = Color.Red, text = "Empty")
+        }
     }
 }
