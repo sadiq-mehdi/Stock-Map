@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +38,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel(), navController
     var bins by remember(state.bins) { mutableStateOf(state.bins.toString()) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(topBar = {
         TopAppBar(title = { Text("Settings") })
@@ -50,9 +52,12 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel(), navController
             OutlinedTextField(
                 value = name,
                 onValueChange = { name = it },
+                singleLine = true,
                 placeholder = { Text("Warehouse name") }
             )
-            Button(onClick = { viewModel.saveWarehouseName(name) }) {
+            Button(onClick = {
+                keyboardController?.hide()
+                viewModel.saveWarehouseName(name) }) {
                 Text("Save")
             }
 
@@ -66,22 +71,26 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel(), navController
                 value = rows,
                 onValueChange = { rows = it },
                 placeholder = { Text("Rows") },
+                singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
             OutlinedTextField(
                 value = shelves,
                 onValueChange = { shelves = it },
                 placeholder = { Text("Shelves") },
+                singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
             OutlinedTextField(
                 value = bins,
                 onValueChange = { bins = it },
                 placeholder = { Text("Bins") },
+                singleLine = true,
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
             )
 
             Button(onClick = {
+                keyboardController?.hide()
                 viewModel.saveLayout(
                     rows.toIntOrNull() ?: 0,
                     shelves.toIntOrNull() ?: 0,

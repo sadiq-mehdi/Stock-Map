@@ -3,18 +3,24 @@ package com.example.stockmap.ui.stocklist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.stockmap.domain.repository.ProductRepository
+import com.example.stockmap.domain.repository.SettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
-class StockListViewModel @Inject constructor(private val productRepository: ProductRepository) :
+class StockListViewModel @Inject constructor(
+    private val productRepository: ProductRepository,
+    private val settingsRepository: SettingsRepository
+) :
     ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")
@@ -25,6 +31,12 @@ class StockListViewModel @Inject constructor(private val productRepository: Prod
 
     private val _uiState = MutableStateFlow(StockListUiState())
     val uiState: StateFlow<StockListUiState> = _uiState
+
+    val warehouseName = settingsRepository.getWarehouseName().stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ""
+    )
 
     init {
         viewModelScope.launch {

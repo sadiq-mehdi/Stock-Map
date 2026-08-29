@@ -44,6 +44,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun saveLayout(rows: Int, shelves: Int, bins: Int){
+        if (rows <= 0 || shelves <= 0 || bins <= 0) return
         viewModelScope.launch {
             binRepository.deleteBins()
             val generatedBins = mutableListOf<Bin>()

@@ -52,43 +52,60 @@ fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: Na
         },
         bottomBar = { BottomNavBar(navController, currentRoute = currentRoute) }
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(horizontal = 16.dp)
-                .fillMaxSize()
-        ) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(4),
-                modifier = Modifier.weight(1f),
-                contentPadding = PaddingValues(8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(state.bins) { bin ->
-                    Card(
-                        elevation = CardDefaults.cardElevation(
-                            defaultElevation = 2.dp
-                        ), shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = binColor(
-                                bin,
-                                state.products
-                            )
-                        ),
-                        onClick = {
-                            val product = state.products.find { it.binId == bin.id }
-                            product?.let { navController.navigate("product_detail/${product.id}") }
-                        }) {
-                        Box(
-                            modifier = Modifier.padding(8.dp)
-                        ) {
-                            Text(bin.label)
+
+        when {
+            state.bins.isNotEmpty() -> {
+                Column(
+                    modifier = Modifier
+                        .padding(paddingValues)
+                        .padding(horizontal = 16.dp)
+                        .fillMaxSize()
+                ) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(4),
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(state.bins) { bin ->
+                            Card(
+                                elevation = CardDefaults.cardElevation(
+                                    defaultElevation = 2.dp
+                                ), shape = RoundedCornerShape(12.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = binColor(
+                                        bin,
+                                        state.products
+                                    )
+                                ),
+                                onClick = {
+                                    val product = state.products.find { it.binId == bin.id }
+                                    product?.let { navController.navigate("product_detail/${product.id}") }
+                                }) {
+                                Box(
+                                    modifier = Modifier.padding(8.dp)
+                                ) {
+                                    Text(bin.label)
+                                }
+                            }
                         }
                     }
+                    Legend()
+                }
+
+            }
+
+            else -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("No Bins Generated.")
                 }
             }
-            Legend()
+
         }
     }
 
@@ -127,7 +144,7 @@ private fun Legend() {
             LegendItem(color = Color.Gray, text = "Unoccupied")
             LegendItem(color = Color.Green, text = "Healthy")
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)){
+        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             LegendItem(color = Color.Yellow, text = "Low Stock")
             LegendItem(color = Color.Red, text = "Empty")
         }

@@ -52,7 +52,6 @@ import com.example.stockmap.ui.components.BottomNavBar
 @Composable
 fun StockListScreen(
     navController: NavController,
-    modifier: Modifier = Modifier,
     viewModel: StockListViewModel = hiltViewModel()
 ) {
 
@@ -62,6 +61,7 @@ fun StockListScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
+    val warehouseName by viewModel.warehouseName.collectAsState()
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
@@ -72,7 +72,8 @@ fun StockListScreen(
 
     Scaffold(
         topBar = {
-            TopBar(onSyncClick = { viewModel.syncProducts() }, onSettingsClick = { navController.navigate("settings")})
+            TopBar(onSyncClick = { viewModel.syncProducts() }, onSettingsClick = { navController.navigate("settings")},
+                title = { Text(warehouseName.ifEmpty { "Stock Map" }, fontWeight = FontWeight.Bold) })
         },
         bottomBar = {
             BottomNavBar(navController = navController, currentRoute = currentRoute)
@@ -142,10 +143,10 @@ fun StockListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onSyncClick: () -> Unit, onSettingsClick: () -> Unit) {
+private fun TopBar(onSyncClick: () -> Unit, onSettingsClick: () -> Unit, title: @Composable () -> Unit) {
 
     TopAppBar(
-        title = { Text("Stock Map") },
+        title = { title() },
         actions = {
             IconButton(onClick = onSyncClick) {
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Sync")
