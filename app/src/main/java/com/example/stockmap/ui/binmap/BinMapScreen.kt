@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Bin
 import com.example.stockmap.domain.model.Product
 import com.example.stockmap.ui.components.BottomNavBar
@@ -40,6 +41,8 @@ import com.example.stockmap.ui.components.BottomNavBar
 fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: NavController) {
 
     val state by viewModel.state.collectAsState()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         topBar = {
@@ -47,7 +50,7 @@ fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: Na
                 title = { Text("Bin Map") }
             )
         },
-        bottomBar = { BottomNavBar(navController) }
+        bottomBar = { BottomNavBar(navController, currentRoute = currentRoute) }
     ) { paddingValues ->
         Column(
             modifier = Modifier

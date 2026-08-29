@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Badge
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -43,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Product
 import com.example.stockmap.navigation.Routes
 import com.example.stockmap.ui.components.BottomNavBar
@@ -58,6 +60,8 @@ fun StockListScreen(
     val searchQuery by viewModel.searchQuery.collectAsState()
     val category by viewModel.category.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     LaunchedEffect(uiState.error) {
         uiState.error?.let {
@@ -71,7 +75,7 @@ fun StockListScreen(
             TopBar(onSyncClick = { viewModel.syncProducts() }, onSettingsClick = { navController.navigate("settings")})
         },
         bottomBar = {
-            BottomNavBar(navController = navController)
+            BottomNavBar(navController = navController, currentRoute = currentRoute)
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { paddingValues ->
 
@@ -114,6 +118,10 @@ fun StockListScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text("No Products Found.")
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = { viewModel.syncProducts() }) {
+                            Text("Sync Products")
+                        }
                     }
 
                 }

@@ -8,6 +8,7 @@ import com.example.stockmap.data.remote.dto.UpdateStockDto
 import com.example.stockmap.domain.model.Product
 import com.example.stockmap.domain.repository.ProductRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -18,7 +19,13 @@ class ProductRepositoryImpl @Inject constructor(
     override suspend fun syncProducts(): Result<Unit> {
         return try {
 
-            val productEntities = stockMapApi.getProducts().map { it.toEntity() }
+            val existingProducts = productDao.getAllProducts().first()
+            val binIdMap = existingProducts.associate { it.supabaseId to it.binId }
+
+            val products = stockMapApi.getProducts()
+            val productEntities = products.map { dto ->
+                dto.toEntity().copy(binId = binIdMap[dto.supabaseId])
+            }
 
             productDao.insertProducts(productEntities)
             Result.success(Unit)

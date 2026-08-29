@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.ui.components.BottomNavBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,10 +35,12 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel(), navController
     var rows by remember(state.rows) { mutableStateOf(state.rows.toString()) }
     var shelves by remember(state.shelves) { mutableStateOf(state.shelves.toString()) }
     var bins by remember(state.bins) { mutableStateOf(state.bins.toString()) }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(topBar = {
         TopAppBar(title = { Text("Settings") })
-    }, bottomBar = { BottomNavBar(navController = navController) }) { paddingValues ->
+    }, bottomBar = { BottomNavBar(navController = navController, currentRoute = currentRoute) }) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)

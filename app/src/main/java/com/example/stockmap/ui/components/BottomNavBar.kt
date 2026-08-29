@@ -13,27 +13,43 @@ import androidx.navigation.NavController
 import com.example.stockmap.navigation.Routes
 
 @Composable
-fun BottomNavBar(navController: NavController) {
-    NavigationBar(
-
-    ) {
+fun BottomNavBar(navController: NavController, currentRoute: String?) {
+    NavigationBar {
         NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate(Routes.STOCK_LIST)},
+            selected = currentRoute == Routes.STOCK_LIST,
+            onClick = {
+                navController.navigate(Routes.STOCK_LIST) {
+                    popUpTo(Routes.STOCK_LIST) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "Home") },
             label = { Text("Home") }
         )
 
         NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate(Routes.SCAN)},
+            selected = currentRoute == Routes.SCAN,
+            onClick = {
+                navController.navigate(Routes.SCAN) {
+                    popUpTo(Routes.STOCK_LIST) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
             icon = { Icon(Icons.Default.AddCircle, contentDescription = "Scan") },
             label = { Text("Scan") },
         )
 
         NavigationBarItem(
-            selected = false,
-            onClick = { navController.navigate(Routes.BIN_MAP)},
+            selected = currentRoute == Routes.BIN_MAP,
+            onClick = {
+                navController.navigate(Routes.BIN_MAP) {
+                    popUpTo(Routes.STOCK_LIST) { saveState = true }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
             icon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Bin Map") },
             label = { Text("Bin Map") }
         )

@@ -48,6 +48,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Bin
 import com.example.stockmap.ui.components.BottomNavBar
 
@@ -62,6 +63,8 @@ fun ProductDetailScreen(
 
     val state by viewModel.productDetailUiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     LaunchedEffect(state.error) {
         state.error?.let {
@@ -86,7 +89,7 @@ fun ProductDetailScreen(
             )
         },
         bottomBar = {
-            BottomNavBar(navController = navController)
+            BottomNavBar(navController = navController, currentRoute = currentRoute)
         }, snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         }) { paddingValues ->
