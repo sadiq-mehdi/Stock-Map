@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -28,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -35,6 +37,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Bin
 import com.example.stockmap.domain.model.Product
 import com.example.stockmap.ui.components.BottomNavBar
+import com.example.stockmap.ui.theme.Amber
+import com.example.stockmap.ui.theme.Black
+import com.example.stockmap.ui.theme.Green
+import com.example.stockmap.ui.theme.LightGray
+import com.example.stockmap.ui.theme.Red
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +54,7 @@ fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: Na
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Bin Map") }
+                title = { Text("Bin Map", fontWeight = FontWeight.Bold) }
             )
         },
         bottomBar = { BottomNavBar(navController, currentRoute = currentRoute) }
@@ -84,9 +91,12 @@ fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: Na
                                     product?.let { navController.navigate("product_detail/${product.id}") }
                                 }) {
                                 Box(
-                                    modifier = Modifier.padding(8.dp)
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .fillMaxSize(),
+                                    contentAlignment = Alignment.Center
                                 ) {
-                                    Text(bin.label)
+                                    Text(bin.label, color = Black)
                                 }
                             }
                         }
@@ -117,9 +127,9 @@ private fun binColor(bin: Bin, products: List<Product>): Color {
     return if (product == null) Color.Gray
     else {
         when {
-            product.currentStock == 0 -> Color.Red
-            product.currentStock < product.minimumStock -> Color.Yellow
-            else -> Color.Green
+            product.currentStock == 0 -> Red
+            product.currentStock < product.minimumStock -> Amber
+            else -> Green
         }
     }
 }
@@ -129,7 +139,7 @@ private fun LegendItem(color: Color, text: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
             modifier = Modifier
-                .size(12.dp)
+                .size(20.dp)
                 .background(color = color, shape = CircleShape)
         )
         Spacer(modifier = Modifier.width(6.dp))
@@ -139,14 +149,22 @@ private fun LegendItem(color: Color, text: String) {
 
 @Composable
 private fun Legend() {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            LegendItem(color = Color.Gray, text = "Unoccupied")
-            LegendItem(color = Color.Green, text = "Healthy")
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(36.dp)
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            LegendItem(color = LightGray, text = "Unoccupied")
+            LegendItem(color = Amber, text = "Low Stock")
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            LegendItem(color = Color.Yellow, text = "Low Stock")
-            LegendItem(color = Color.Red, text = "Empty")
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            LegendItem(color = Green, text = "Healthy")
+            LegendItem(color = Red, text = "Empty")
         }
     }
+    Spacer(modifier = Modifier.height(8.dp))
 }

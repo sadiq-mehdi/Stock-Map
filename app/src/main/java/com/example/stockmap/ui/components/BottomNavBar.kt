@@ -7,14 +7,20 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.example.stockmap.navigation.Routes
+import com.example.stockmap.ui.theme.Black
+import com.example.stockmap.ui.theme.White
 
 @Composable
 fun BottomNavBar(navController: NavController, currentRoute: String?) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = White,
+        contentColor = White
+    ) {
         NavigationBarItem(
             selected = currentRoute == Routes.STOCK_LIST,
             onClick = {
@@ -39,6 +45,13 @@ fun BottomNavBar(navController: NavController, currentRoute: String?) {
             },
             icon = { Icon(Icons.Default.AddCircle, contentDescription = "Scan") },
             label = { Text("Scan") },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = White,
+                selectedTextColor = Black,
+                unselectedIconColor = Black,
+                unselectedTextColor = Black,
+                indicatorColor = Black
+            )
         )
 
         NavigationBarItem(

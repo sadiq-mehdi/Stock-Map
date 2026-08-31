@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Button
@@ -23,15 +24,17 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -39,15 +42,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Product
-import com.example.stockmap.navigation.Routes
 import com.example.stockmap.ui.components.BottomNavBar
+import com.example.stockmap.ui.theme.Black
+import com.example.stockmap.ui.theme.Cream
+import com.example.stockmap.ui.theme.Red
+import com.example.stockmap.ui.theme.White
 
 @Composable
 fun StockListScreen(
@@ -71,9 +76,17 @@ fun StockListScreen(
     }
 
     Scaffold(
+        containerColor = Cream,
         topBar = {
-            TopBar(onSyncClick = { viewModel.syncProducts() }, onSettingsClick = { navController.navigate("settings")},
-                title = { Text(warehouseName.ifEmpty { "Stock Map" }, fontWeight = FontWeight.Bold) })
+            TopBar(
+                onSyncClick = { viewModel.syncProducts() },
+                onSettingsClick = { navController.navigate("settings") },
+                title = {
+                    Text(
+                        warehouseName.ifEmpty { "Stock Map" },
+                        fontWeight = FontWeight.Bold
+                    )
+                })
         },
         bottomBar = {
             BottomNavBar(navController = navController, currentRoute = currentRoute)
@@ -87,19 +100,26 @@ fun StockListScreen(
                 .fillMaxSize()
         ) {
 
-            TextField(
+            OutlinedTextField(
                 value = searchQuery,
                 onValueChange = { viewModel.onSearchQueryChange(it) },
                 placeholder = { Text("Search products...") },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 14.dp),
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search") }
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             CategoryFilterChips(
                 categories = uiState.allCategories,
                 selectedCategory = category,
                 onCategorySelected = { viewModel.onCategoryChange(it) },
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             when {
                 uiState.isLoading -> {
@@ -132,7 +152,9 @@ fun StockListScreen(
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(uiState.products) { product ->
-                            ProductCard(product, onClick = { navController.navigate("product_detail/${product.id}")})
+                            ProductCard(
+                                product,
+                                onClick = { navController.navigate("product_detail/${product.id}") })
                         }
                     }
                 }
@@ -143,10 +165,20 @@ fun StockListScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopBar(onSyncClick: () -> Unit, onSettingsClick: () -> Unit, title: @Composable () -> Unit) {
+private fun TopBar(
+    onSyncClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    title: @Composable () -> Unit
+) {
 
     TopAppBar(
         title = { title() },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Black,
+            titleContentColor = White,
+            navigationIconContentColor = White,
+            actionIconContentColor = White
+        ),
         actions = {
             IconButton(onClick = onSyncClick) {
                 Icon(imageVector = Icons.Default.Refresh, contentDescription = "Sync")
@@ -166,14 +198,19 @@ private fun CategoryFilterChips(
 ) {
 
     LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        contentPadding = PaddingValues(horizontal = 16.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         item {
             FilterChip(
                 selected = selectedCategory == null,
                 onClick = { onCategorySelected(null) },
-                label = { Text("All") }
+                label = { Text("All") },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = Black,
+                    selectedLabelColor = White,
+                    containerColor = White,
+                    labelColor = Black
+                )
             )
         }
 
@@ -181,7 +218,13 @@ private fun CategoryFilterChips(
             FilterChip(
                 selected = selectedCategory == "unassigned",
                 onClick = { onCategorySelected("unassigned") },
-                label = { Text("Unassigned") }
+                label = { Text("Unassigned") },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = Black,
+                    selectedLabelColor = White,
+                    containerColor = White,
+                    labelColor = Black
+                )
             )
 
         }
@@ -190,7 +233,13 @@ private fun CategoryFilterChips(
             FilterChip(
                 selected = selectedCategory == category,
                 onClick = { onCategorySelected(category) },
-                label = { Text(category) }
+                label = { Text(category) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = Black,
+                    selectedLabelColor = White,
+                    containerColor = White,
+                    labelColor = Black
+                )
             )
         }
     }
@@ -198,7 +247,7 @@ private fun CategoryFilterChips(
 }
 
 @Composable
-private fun ProductCard(product: Product, onClick: ()-> Unit) {
+private fun ProductCard(product: Product, onClick: () -> Unit) {
 
     Card(
         modifier = Modifier
@@ -206,54 +255,68 @@ private fun ProductCard(product: Product, onClick: ()-> Unit) {
             .padding(vertical = 4.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp
+        ), colors = CardDefaults.cardColors(
+            containerColor = White
         ),
         shape = RoundedCornerShape(12.dp),
-        onClick = { onClick()}
+        onClick = { onClick() }
     ) {
-
-        Column(
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(product.name, fontWeight = FontWeight.Bold)
-                Text("${product.currentStock}")
+            Column {
+                Text(
+                    text = product.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Black
+                )
+
+                Spacer(modifier = Modifier.height(5.dp))
+
+                Badge(
+                    containerColor = Black,
+                    contentColor = White,
+                ) {
+                    Text(
+                        product.category,
+                        color = White,
+                        modifier = Modifier.padding(horizontal = 6.dp)
+                    )
+                }
+
+                if (product.binId == null) {
+                    Spacer(modifier = Modifier.height(5.dp))
+
+                    Badge(
+                        containerColor = Red,
+                        contentColor = White,
+                    ) {
+                        Text(
+                            text = "Unassigned",
+                            color = White,
+                            modifier = Modifier.padding(horizontal = 6.dp)
+                        )
+                    }
+                }
+
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Column(horizontalAlignment = Alignment.End) {
+                Text(
+                    "${product.currentStock}",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Black
+                )
 
-            Text(product.category)
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            Text("SKU : ${product.sku}")
-
-            Spacer(modifier = Modifier.height(5.dp))
-
-            if (product.currentStock < product.minimumStock) {
-                Badge(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = Color.White
-                ) {
-                    Text("Low Stock")
-                }
-            }
-
-            if (product.binId == null) {
-                Badge(
-                    containerColor = Color.Gray,
-                    contentColor = Color.White
-                ) {
-                    Text("Unassigned")
-                }
+                Text("in stock", style = MaterialTheme.typography.bodySmall)
             }
         }
-
     }
 
 }
