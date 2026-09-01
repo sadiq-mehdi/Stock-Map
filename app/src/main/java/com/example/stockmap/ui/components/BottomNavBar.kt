@@ -31,7 +31,14 @@ fun BottomNavBar(navController: NavController, currentRoute: String?) {
                 }
             },
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") }
+            label = { Text("Home") },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = White,
+                selectedTextColor = Black,
+                unselectedIconColor = Black,
+                unselectedTextColor = Black,
+                indicatorColor = Black
+            )
         )
 
         NavigationBarItem(
@@ -64,7 +71,14 @@ fun BottomNavBar(navController: NavController, currentRoute: String?) {
                 }
             },
             icon = { Icon(imageVector = Icons.Default.LocationOn, contentDescription = "Bin Map") },
-            label = { Text("Bin Map") }
+            label = { Text("Bin Map") },
+            colors = NavigationBarItemDefaults.colors(
+                selectedIconColor = White,
+                selectedTextColor = Black,
+                unselectedIconColor = Black,
+                unselectedTextColor = Black,
+                indicatorColor = Black
+            )
         )
 
     }

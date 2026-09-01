@@ -39,6 +39,7 @@ import com.example.stockmap.domain.model.Product
 import com.example.stockmap.ui.components.BottomNavBar
 import com.example.stockmap.ui.theme.Amber
 import com.example.stockmap.ui.theme.Black
+import com.example.stockmap.ui.theme.Cream
 import com.example.stockmap.ui.theme.Green
 import com.example.stockmap.ui.theme.LightGray
 import com.example.stockmap.ui.theme.Red

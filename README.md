@@ -26,19 +26,3 @@ Built for fulfillment centers and quick-commerce dark stores. Workers can browse
 ## Tech Stack
 
 Kotlin · Jetpack Compose · MVVM + Clean Architecture · Hilt · Room · Retrofit + Supabase · DataStore · CameraX · ML Kit
-
-## Getting Started
-
-1. Clone the repo
-   \`\`\`bash
-   git clone https://github.com/sadiq-mehdi/Stock-Map.git
-   \`\`\`
-2. Open in Android Studio
-3. Add your Supabase URL and anon key
-4. Run on a device or emulator (min SDK 26)
-
-## Roadmap
-
-- Bin barcode scanning for assignment
-- Paging 3 for the stock list
-- Optimistic updates with rollback
