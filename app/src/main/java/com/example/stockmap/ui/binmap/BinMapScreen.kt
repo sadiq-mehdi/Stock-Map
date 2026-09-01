@@ -42,6 +42,7 @@ import com.example.stockmap.ui.theme.Black
 import com.example.stockmap.ui.theme.Green
 import com.example.stockmap.ui.theme.LightGray
 import com.example.stockmap.ui.theme.Red
+import com.example.stockmap.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,7 +97,7 @@ fun BinMapScreen(viewModel: BinMapViewModel = hiltViewModel(), navController: Na
                                         .fillMaxSize(),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text(bin.label, color = Black)
+                                    Text(bin.label, color = White)
                                 }
                             }
                         }

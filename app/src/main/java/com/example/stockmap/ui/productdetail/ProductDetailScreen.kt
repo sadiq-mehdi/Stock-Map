@@ -1,6 +1,5 @@
 package com.example.stockmap.ui.productdetail
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,11 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -47,13 +44,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.stockmap.domain.model.Bin
 import com.example.stockmap.ui.components.BottomNavBar
+import com.example.stockmap.ui.theme.Green
+import com.example.stockmap.ui.theme.LightGray
+import com.example.stockmap.ui.theme.White
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -100,7 +99,8 @@ fun ProductDetailScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             InfoRow(label = "Name", value = state.product?.name ?: "Not Found")
             InfoRow(label = "Category", value = state.product?.category ?: "Not Found")
@@ -111,45 +111,75 @@ fun ProductDetailScreen(
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp)
             ) {
-                Column {
-                    Text("Current Stock", style = MaterialTheme.typography.labelSmall)
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    Text(
+                        "Current Stock",
+                        style = MaterialTheme.typography.labelSmall
+                    )
                     Text(
                         "${state.product?.currentStock}",
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
 
-                Button(onClick = { viewModel.onAdjustStockClick() }) { Text("Adjust Stock") }
+                Button(
+                    onClick = { viewModel.onAdjustStockClick() }
+                ) {
+                    Text("Adjust Stock")
+                }
             }
-
-
 
             HorizontalDivider()
 
-            Text("Minimum Stock", style = MaterialTheme.typography.labelSmall)
-            Text("${state.product?.minimumStock}", style = MaterialTheme.typography.bodyLarge)
+            Column(
+                verticalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Text(
+                    "Minimum Stock",
+                    style = MaterialTheme.typography.labelSmall
+                )
+                Text(
+                    "${state.product?.minimumStock}",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
 
             HorizontalDivider()
 
             InfoRow(
                 label = "Bin Label",
-                value = state.bins.find { it.id == state.product?.binId }?.label ?: "Unassigned"
+                value = state.bins.find { it.id == state.product?.binId }?.label
+                    ?: "Unassigned"
             )
-            Button(onClick = { viewModel.onAssignBinClick() }) { Text(if (state.product?.binId != null) "Update Bin" else "Assign Bin") }
+
+            Button(
+                onClick = { viewModel.onAssignBinClick() }
+            ) {
+                Text(
+                    if (state.product?.binId != null) "Update Bin"
+                    else "Assign Bin"
+                )
+            }
         }
+
         if (state.isDialog) {
             AdjustStockDialog(
                 onConfirm = { newStock -> viewModel.adjustStock(newStock) },
                 onDismiss = { viewModel.onDismissDialog() }
             )
         }
-        if (state.isBottomSheet){
+        if (state.isBottomSheet) {
             BinAssignmentBottomSheet(
                 bins = state.bins,
                 occupiedBinIds = state.occupiedBinIds,
-                onBinSelected = { viewModel.assignBin(it)},
+                onBinSelected = { viewModel.assignBin(it) },
                 onDismiss = { viewModel.onDismissBottomSheet() }
             )
         }
@@ -224,9 +254,13 @@ private fun BinAssignmentBottomSheet(
                             defaultElevation = 2.dp
                         ), shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.Gray
-                        )){
-                        Text(bin.label, modifier = Modifier.padding(14.dp))
+                            containerColor = LightGray
+                        )
+                    ) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text(bin.label, modifier = Modifier.padding(14.dp), color = White)
+                        }
+
                     }
 
 
@@ -236,16 +270,20 @@ private fun BinAssignmentBottomSheet(
                             defaultElevation = 2.dp
                         ), shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor = Color.Green
+                            containerColor = Green
                         ),
                         onClick = {
                             onBinSelected(bin.id)
                             onDismiss()
-                        }){
-                        Text(bin.label, modifier = Modifier
-                            .padding(14.dp))
-                    }
+                        }) {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+                            Text(
+                                bin.label, modifier = Modifier
+                                    .padding(14.dp), color = White
+                            )
+                        }
 
+                    }
 
                 }
 

@@ -18,6 +18,7 @@ cameraX = "1.4.0"
 mlkitBarcode = "17.3.0"
 ksp = "2.0.21-1.0.25"
 hiltNavigationCompose = "1.2.0"
+material3 = "1.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +67,7 @@ androidx-camera-view = { group = "androidx.camera", name = "camera-view", versio
 
 # ML Kit
 mlkit-barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "mlkitBarcode" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

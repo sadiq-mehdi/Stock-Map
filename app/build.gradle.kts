@@ -64,6 +64,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.material3)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
@@ -95,6 +96,9 @@ dependencies {
     implementation(libs.mlkit.barcode.scanning)
 
     implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
+    implementation("androidx.compose.material:material-icons-extended")
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
