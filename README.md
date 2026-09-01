@@ -7,10 +7,10 @@ Built for fulfillment centers and quick-commerce dark stores. Workers can browse
 ## Screenshots
 
 <p align="center">
-  <img src="screenshots/stock_list.png" width="200" />
-  <img src="screenshots/product_detail.png" width="200" />
-  <img src="screenshots/bin_map.png" width="200" />
-  <img src="screenshots/scan.png" width="200" />
+  <img src="screenshots/stock_list.jpg" width="200" />
+  <img src="screenshots/product_detail.jpg" width="200" />
+  <img src="screenshots/bin_map.jpg" width="200" />
+  <img src="screenshots/scan.jpg" width="200" />
 </p>
 
 ## Features
